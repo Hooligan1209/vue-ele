@@ -1,15 +1,47 @@
 <template>
-  <div class="stars stars-48">
-    <span class="star on"></span>
-    <span class="star on"></span>
-    <span class="star on"></span>
-    <span class="star half"></span>
-    <span class="star off"></span>
+  <div class="stars" :class="`stars-${size}`">
+    <span class="star" v-for="cs in starClasses" :class="cs"></span>
   </div>
 </template>
 
 <script>
-    export default {}
+    const ON = 'on';
+    const HALF = 'half';
+    const OFF = 'off';
+
+    export default {
+        props: {
+          score: Number,
+          size: Number
+        },
+      /*
+      * 5
+      * 3.4 --> 3全星 2 灰星
+      * 3.5 --> 3全 1半 1 灰
+      * */
+        computed: {
+          starClasses () {
+            const sca = []
+            const score = this.score
+            const scoreInteger = Math.floor(score)
+            // 添加 ON
+            for (let i = 0; i < scoreInteger; i++) {
+              sca.push(ON)
+            }
+            // 添加HALF
+             if(score-scoreInteger>=0.5){
+                  sca.push(HALF)
+             }
+
+             // 添加OFF
+            while(sca.length<5){
+                 sca.push(OFF)
+            }
+            return sca
+          }
+        },
+
+    }
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
@@ -21,7 +53,7 @@
     align-items center
     justify-content space-around
     .star
-      display inline-block
+      diplay inline-block
       background-repeat no-repeat
     &.stars-48
       width 200px

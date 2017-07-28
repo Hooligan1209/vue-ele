@@ -38,10 +38,8 @@
             <div class="mask-main">
               <h1 class="title">{{seller.name}}</h1>
               <div class="star-wrapper">
-
                 <!--评星组件标签-->
-                <Stars></Stars>
-
+                <Stars :score="seller.score" :size="48"></Stars>
               </div>
               <div class="info">
                 <div class="line"></div>
@@ -53,22 +51,6 @@
                   <i class="icon" :class="supportClasses[support.type]"></i>
                   <span class="text">{{support.description}}</span>
                 </li>
-                <!--<li class="item">
-                  <i class="icon discount"></i>
-                  <span class="text">VC无限橙果汁全场8折</span>
-                </li>
-                <li class="item">
-                  <i class="icon guarantee"></i>
-                  <span class="text">已加入“外卖保”计划,食品安全保障</span>
-                </li>
-                <li class="item">
-                  <i class="icon invoice"></i>
-                  <span class="text">该商家支持发票,请下单写好发票抬头</span>
-                </li>
-                <li class="item">
-                  <i class="icon special"></i>
-                  <span class="text">单人精彩套餐</span>
-                </li>-->
               </ul>
               <div class="info">
                 <div class="line"></div>
@@ -105,9 +87,9 @@ import Stars from '../star/stars.vue'
               this.isShow = isShow
           }
         },
-      components: {
-        Stars
-      }
+        components: {
+          Stars
+        }
     }
 </script>
 
