@@ -143,17 +143,59 @@
              this.$emit('clearSelectFoods')
            }
       },
-      // 动画进入之前的回掉
-      beforeDrop () {
+      // 触发小球动画回掉
+      startDropAnimation (plus) { // 接受点击的加号+
+        console.log('startDropAnimation()')
+          // 找到一个隐藏的小球
+      const ball = this.balls.find(ball => !ball.isShow)
+         if(ball){ // 已经找到
+           ball.isShow = true
+           ball.plus = plus // 将对应的加号保存到ball对象中
+           this.droppingBalls.push(ball) // 保存正在执行动画的小球
+         }
+      },
 
+      // 动画进入之前的回掉
+      beforeDrop (el) { // el是小球div
+        // 得到当前动画所对应的ball
+        const ball = this.droppingBalls.shift()
+        const plus = ball.plus
+        // 计算偏移量
+        let offsetX = 0
+        let offsetY = 0
+        const plusLeft = plus.getBoundingClientRect().left
+        const plusTop = plus.getBoundingClientRect().top
+        const elLeft = 32
+        const elBottom = 22
+        offsetX = plusLeft - elLeft
+        offsetY = -(window.innerHeight-plusTop-elBottom)
+
+        // 瞬间平移
+        el.style.transform = `translate3d(0 ,${offsetY}px , 0)`
+        el.children[0].style.transform=`translate3d(${offsetX}px , 0 , 0)`
+
+        // 保存ball
+        el.ball = ball
       },
       // 动画进入的回掉
-      drop () {
+      // 指定el在动画结束时的样式
+      drop (el) {
 
+          const temp = el.clientHeight
+
+          // 必须异步指定
+        this.$nextTick(() => {
+            el.style.transform = `translate3d(0,0,0)`
+            el.children[0].style.transform = `translate3d(0,0,0)`
+        })
       },
       // 动画进入之后的回掉
-      afterDrop () {
-
+      // 做一些收尾的工作（隐藏小球）
+      afterDrop (el) {
+        // 必须延迟0.4秒才能隐藏ball
+        setTimeout(() => {
+            el.ball.isShow = false
+        },400)
       }
     },
     components: {
@@ -262,7 +304,7 @@
         left 32px
         bottom 22px
         z-index 200
-        transition all .4s
+        transition all .4s cubic-bezier(0.49, -0.29, 0.75, 0.41)
         .inner
           width 16px
           height 16px

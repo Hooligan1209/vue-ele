@@ -55,6 +55,7 @@
         :foods="selectFoods"
         :update-food-count="updateFoodCount"
         @clearSelectFoods="clearSelectFoods"
+        ref="shopcart"
       ></shopcart>
       <!--foot组件-->
       <food :food="food" :update-food-count="updateFoodCount" ref="food"></food>
@@ -152,6 +153,8 @@
                     }else { // 不是第一次进入
                       food.count++
                     }
+                  // 通过shopcart组件对象启动一个小球的动画
+                  this.$refs.shopcart.startDropAnimation(event.target)
                 }else {
                      if(food.count){
                           food.count--

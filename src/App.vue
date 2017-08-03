@@ -18,9 +18,7 @@
     <router-view :seller="seller"></router-view>
 
   </div>
-
 </template>
-
 <script>
 import header from './components/header/header.vue'
 export default {
@@ -29,19 +27,18 @@ export default {
           seller: {}
       }
     },
-  　components: {
-      'ele-header': header
-   },
   created () {
     this.$http.get('/mock/seller')
       .then(response => {
         const result = response.data
-         if(result.status === "ok"){
-              this.seller = result.data
-         }
-
+        if(result.status === "ok"){
+          this.seller = result.data
+        }
       })
-  }
+  },
+  　components: {
+      'ele-header': header
+   }
 }
 </script>
 <style lang="stylus" rel="stylesheet/stylus">
@@ -62,7 +59,5 @@ export default {
         color: rgb(77, 85, 93)
         &.active
           color: rgb(240 , 20 , 20)
-
-
 
 </style>
