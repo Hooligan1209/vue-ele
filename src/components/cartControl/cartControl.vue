@@ -3,13 +3,13 @@
       <transition name="move">
         <div class="cart-decrease icon-remove_circle_outline"
              v-if="food.count"
-             @click="updateFoodCount(food , false , $event)"
+             @click.stop="updateFoodCount(food , false , $event)"
         >
             <!--减少-->
         </div>
       </transition>
         <div class="cart-count" v-if="food.count">{{food.count}}</div>
-        <div class="cart-add icon-add_circle" @click="updateFoodCount(food , true , $event)"></div>
+        <div class="cart-add icon-add_circle" @click.stop="updateFoodCount(food , true , $event)"></div>
     </div>
 </template>
 

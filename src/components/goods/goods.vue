@@ -24,7 +24,7 @@
           >
             <h1 class="title">{{good.name}}</h1>
             <ul>
-              <li class="food-item border-1px" v-for="(food, index) in good.foods">
+              <li class="food-item border-1px" v-for="(food, index) in good.foods" @click="clickFood(food)">
                 <div class="icon">
                   <img :src="food.icon" width="57" height="57">
                 </div>
@@ -40,7 +40,7 @@
                     <span class="old" v-show="food.oldPrice">￥{{food.oldPrice}}</span>
                   </div>
                   <div class="cartControl-wrapper">
-                    <cartcontral :food="food" :update-food-count="updateFoodCount"></cartcontral>
+                    <cartControl :food="food" :update-food-count="updateFoodCount"></cartControl>
                   </div>
                 </div>
               </li>
@@ -48,20 +48,37 @@
           </li>
         </ul>
       </div>
+      <!--购物车组件-->
+      <shopcart
+        :min-price="seller.minPrice"
+        :delivery-price="seller.deliveryPrice"
+        :foods="selectFoods"
+        :update-food-count="updateFoodCount"
+        @clearSelectFoods="clearSelectFoods"
+      ></shopcart>
+      <!--foot组件-->
+      <food :food="food" :update-food-count="updateFoodCount" ref="food"></food>
     </div>
 </template>
 
 <script>
-  import cartcontral from '../cartControl/cartContral.vue'
   import BScroll from 'better-scroll'
+  import cartControl from '../cartControl/cartControl.vue'
+  import shopcart from '../shopcart/shopcart.vue'
+  import food from '../food/food.vue'
+
 
     export default {
+        props: {
+            seller: Object
+        },
         data () {
             return {
               goods: [],
               supportClasses: ["decrease", "discount", "guarantee", "invoice", "special"],
               scrollY: 0,
-              tops: []
+              tops: [],
+              food: {}
             }
         },
         created () {
@@ -124,6 +141,7 @@
           this.foodsScroll.scrollToElement(li , 300)
         },
         updateFoodCount (food , isAdd , event) {
+              // 清除因滚动插件造成的pc端的默认事件触发
                if(!event._constructed){
                     return
                }
@@ -133,7 +151,6 @@
                       this.$set(food , 'count' , 1) // 有数据绑定，会更新界面
                     }else { // 不是第一次进入
                       food.count++
-
                     }
                 }else {
                      if(food.count){
@@ -141,6 +158,15 @@
                      }
                 }
 
+        },
+        clearSelectFoods () {
+              this.selectFoods.forEach(food => {
+                  food.count = 0
+              })
+        },
+        clickFood (food) {
+          this.food = food
+          this.$refs.food.show()
         }
       },
       computed: {
@@ -151,10 +177,23 @@
                 // 条件： scrollY大于或等于当前Top，且小于下一个Top
               return scrollY>=top && scrollY<tops[index+1]
             })
+        },
+        selectFoods () {
+          const foods = []
+          this.goods.forEach(good => {
+            good.foods.forEach(food => {
+              if(food.count){
+                foods.push(food)
+              }
+            })
+          })
+          return foods
         }
       },
       components: {
-        cartcontral
+        cartControl,
+        shopcart,
+        food
       }
     }
 </script>
