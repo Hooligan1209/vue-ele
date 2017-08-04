@@ -5,10 +5,10 @@
           {{desc.all}}<span class="count">{{ratings.length}}</span>
         </span>
         <span class="block positive" :class="{active:selectType===0}" @click="setType(0)">
-          {{desc.positive}}<span class="count">{{positiveLenght}}</span>
+          {{desc.positive}}<span class="count">{{positiveLength}}</span>
         </span>
         <span class="block negative" :class="{active:selectType===1}" @click="setType(1)">
-          {{desc.negative}}<span class="count">{{ratings.length-positiveLenght}}</span>
+          {{desc.negative}}<span class="count">{{ratings.length-positiveLength}}</span>
         </span>
       </div>
       <div class="switch" :class="{on:contentOnly}" @click="toggle">
@@ -36,7 +36,7 @@
         }
       },
       computed: {
-            positiveLenght () {
+        positiveLength () {
                 return this.ratings.reduce((preTotal , rating) => {
                     return preTotal + (rating.rateType ===0 ? 1 : 0)
                 } , 0)

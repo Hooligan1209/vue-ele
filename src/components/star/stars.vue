@@ -51,7 +51,7 @@
     margin 0 auto
     display flex
     align-items center
-    justify-content space-around
+    justify-content space-between
     .star
       diplay inline-block
       background-repeat no-repeat
@@ -68,7 +68,7 @@
         &.off
           bg-image(star48_off)
     &.stars-36
-      width 150px
+      width 100px
       .star
         width 15px
         height 15px
@@ -80,7 +80,7 @@
         &.off
           bg-image(star36_off)
     &.stars-24
-      width 100px
+      width 70px
       .star
         width 10px
         height 10px

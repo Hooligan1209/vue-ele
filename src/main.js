@@ -4,8 +4,10 @@ import Vue from 'vue'
 import App from './App'
 
 import vueResource from 'vue-resource'
+import Scroller from 'vue-scroller'
 
 Vue.use(vueResource);
+Vue.use(Scroller);
 
 import router from './router'
 

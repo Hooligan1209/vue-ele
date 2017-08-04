@@ -145,9 +145,9 @@
       },
       // 触发小球动画回掉
       startDropAnimation (plus) { // 接受点击的加号+
-        console.log('startDropAnimation()')
+
           // 找到一个隐藏的小球
-      const ball = this.balls.find(ball => !ball.isShow)
+         const ball = this.balls.find(ball => !ball.isShow)
          if(ball){ // 已经找到
            ball.isShow = true
            ball.plus = plus // 将对应的加号保存到ball对象中
